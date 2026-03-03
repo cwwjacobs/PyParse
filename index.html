@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StatelessPy — browser-local Python, no backend.</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>StatelessPy</h1>
+      <p id="tagline">Browser-local Python execution — no backend, with local autosave in this browser.</p>
+    </div>
+    <div id="status" class="status">Loading runtime...</div>
+  </header>
+
+  <main class="container">
+    <section class="editor-column">
+      <div class="toolbar">
+        <div class="left-row">
+          <button id="runBtn" onclick="runCode()" disabled title="Run (Ctrl/Cmd+Enter)">Run ▶</button>
+          <button onclick="clearOutput()" title="Clear terminal">Clear Terminal</button>
+          <button onclick="clearCode()" title="Clear editor">Clear Code</button>
+          <button onclick="downloadScript()" title="Save script">Save Script</button>
+        </div>
+
+        <div class="right-row">
+          <label class="small">Examples
+            <select id="examples" onchange="loadExample(event)"></select>
+          </label>
+
+          <label class="file-input">
+            <input id="fileInput" type="file" onchange="loadScript(event)" aria-label="Load script file" />
+            Load script
+          </label>
+
+          <label class="small">Theme
+            <button id="themeToggle" onclick="toggleTheme()" class="btn-toggle">•</button>
+          </label>
+        </div>
+      </div>
+
+      <textarea id="code" placeholder="Write your Python code here..."># Example:
+print('Hello, stateless!')
+# Write a file and download it:
+# import json
+# open('result.json','w').write(json.dumps({'ok': True}))</textarea>
+    </section>
+
+    <aside class="sidebar">
+      <div class="controls">
+        <div class="control-row">
+          <button id="downloadJsonBtn" onclick="downloadJSONFile('result.json')" title="Download result.json from the current run" disabled>Download result.json</button>
+          <button onclick="copyOutput()" title="Copy output to clipboard">Copy Output</button>
+        </div>
+
+        <div class="autosave-status" id="autosaveStatus">Autosave: off</div>
+        <div class="runtime-note">Runs client-side in your browser. Code and theme may be stored locally in this browser. Pyodide is loaded from CDN unless self-hosted.</div>
+      </div>
+    </aside>
+
+    <section class="output-column">
+      <pre id="output" aria-live="polite"></pre>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
